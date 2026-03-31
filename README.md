@@ -1,7 +1,6 @@
+[![release](https://img.shields.io/badge/release-1.4.0-blue.svg)](https://github.com/metasfresh/metasfresh/releases/tag/5.175)
+[![license](https://img.shields.io/badge/license-APACHE-blue.svg)](https://github.com/metasfresh/metasfresh/blob/master/LICENSE.md)
 
-[![Latest Release](https://gitlab.podosoftware.com/podosoftware/devops/devops-policy-template/-/badges/release.svg)](https://gitlab.podosoftware.com/podosoftware/devops/devops-policy-template/-/releases)
-[![coverage report](https://gitlab.podosoftware.com/podosoftware/devops/devops-policy-template/badges/main/coverage.svg)](https://gitlab.podosoftware.com/podosoftware/devops/devops-policy-template/-/commits/main)
-[![pipeline status](https://gitlab.podosoftware.com/podosoftware/devops/devops-policy-template/badges/main/pipeline.svg)](https://gitlab.podosoftware.com/podosoftware/devops/devops-policy-template/-/commits/main)
 
 - 현재 정책 버전: [POLICY_VERSION.md](./POLICY_VERSION.md)
 
