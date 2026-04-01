@@ -1,20 +1,27 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-TARGET_DIR="${1:-}"
+TARGET_DIR="$(pwd)"
 PRUNE_LEGACY=false
 
-if [[ "${2:-}" == "--prune-legacy" ]]; then
-  PRUNE_LEGACY=true
-elif [[ -n "${2:-}" ]]; then
-  echo "Usage: bash scripts/update-policy.sh /path/to/target-project [--prune-legacy]"
-  exit 1
-fi
-
-if [[ -z "${TARGET_DIR}" ]]; then
-  echo "Usage: bash scripts/update-policy.sh /path/to/target-project [--prune-legacy]"
-  exit 1
-fi
+for arg in "$@"; do
+  case "${arg}" in
+    --prune-legacy)
+      PRUNE_LEGACY=true
+      ;;
+    -*)
+      echo "Usage: bash scripts/update-policy.sh [/path/to/target-project] [--prune-legacy]"
+      exit 1
+      ;;
+    *)
+      if [[ "${TARGET_DIR}" != "$(pwd)" ]]; then
+        echo "Usage: bash scripts/update-policy.sh [/path/to/target-project] [--prune-legacy]"
+        exit 1
+      fi
+      TARGET_DIR="${arg}"
+      ;;
+  esac
+done
 
 if [[ ! -d "${TARGET_DIR}" ]]; then
   echo "[ERROR] target directory does not exist: ${TARGET_DIR}"
@@ -36,6 +43,7 @@ FILES=(
   ".codex/agents/docs-agent.toml"
   ".codex/agents/backend-developer.toml"
   ".codex/agents/spring-boot-engineer.toml"
+  ".codex/agents/react-specialist.toml"
   ".codex/agents/vue-expert.toml"
   ".codex/agents/typescript-pro.toml"
   ".codex/agents/javascript-engineer.toml"
@@ -56,6 +64,7 @@ FILES=(
   "docs/agents/design-agents.md"
   ".vscode/java.code-snippets"
   "docs/dev/vscode-snippets-guide.md"
+  "scripts/update-codex-subagents.sh"
 )
 
 LEGACY_FILES=(
@@ -74,6 +83,11 @@ backup_and_copy() {
 
   if [[ ! -f "${src}" ]]; then
     echo "[WARN] source not found: ${src}"
+    return 0
+  fi
+
+  if [[ "${src}" == "${dst}" ]]; then
+    echo "[SKIP] source equals target: ${dst}"
     return 0
   fi
 

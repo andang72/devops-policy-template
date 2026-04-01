@@ -1,5 +1,31 @@
 # Changelog
 
+## 2026-04-01
+
+### 변경됨
+- Add missing `.gitlab/issue_templates/default.md` and `.gitlab/merge_request_templates/default.md` to the repository
+- Add missing `.codex/config.toml` and `.codex/agents/*.toml` Codex execution definitions to the repository
+- Add missing `.gitmessage-ai-assisted.txt` AI-assisted commit template to the repository
+- Add `.codex/agents/react-specialist.toml` and document React-focused subagent usage
+- Add `scripts/update-codex-subagents.sh` to update only already-installed upstream Codex subagent files with backup support
+- Include `react-specialist.toml` and `update-codex-subagents.sh` in policy install/update distribution scripts
+- Ignore generated `.policy-backup-*` directories so backup artifacts are not staged by default
+- Allow install/update helper scripts to default to the current working directory when the target path is omitted
+- Skip self-copy cases when install/update scripts are run inside the template repository itself
+- Make `update-codex-subagents.sh` compatible with macOS default Bash by replacing `mapfile`
+- Clarify in `README.md` that some role-specific Codex agents are imported/adapted with reference to `VoltAgent/awesome-codex-subagents`
+- Bump policy version to reflect the added distributed policy/template files
+
+### 검증
+- Reviewed new `.gitlab` templates against issue/MR policy requirements
+- Reviewed new `.codex` metadata and agent definitions for policy-order alignment
+- Reviewed `react-specialist` documentation coverage in README and frontend agent guide
+- Reviewed the new subagent update script flow for installed-only matching, backup creation, and dry-run behavior
+- Reviewed omitted-path behavior for install/update helper scripts
+- Verified self-target execution no longer fails on identical source/target paths
+- Reviewed Bash 3 compatibility for the subagent updater
+- Reviewed README wording to avoid implying runtime installation from an external repository
+
 ## 2026-03-23
 
 ### 변경됨
