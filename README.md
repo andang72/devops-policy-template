@@ -1,4 +1,4 @@
-[![release](https://img.shields.io/badge/release-1.4.0-blue.svg)](https://github.com/metasfresh/metasfresh/releases/tag/5.175)
+[![release](https://img.shields.io/badge/release-1.5.0-blue.svg)](https://github.com/metasfresh/metasfresh/releases/tag/5.175)
 [![license](https://img.shields.io/badge/license-APACHE-blue.svg)](https://github.com/metasfresh/metasfresh/blob/master/LICENSE.md)
 
 
@@ -6,7 +6,7 @@
 
 # Enterprise DevOps Policy Template
 
-전사 개발 프로젝트에서 공통적으로 적용하는 **AI 기반 개발 정책, Git 협업 규칙, Issue/MR 템플릿, Commit 표준**을 관리하는 공통 정책 저장소입니다.
+개발 프로젝트에서 공통적으로 적용하는 **AI 기반 개발 정책, Git 협업 규칙, Issue/MR 템플릿, Commit 표준**을 관리하는 공통 정책 저장소입니다.
 
 본 저장소는 신규 프로젝트 생성 시 기본 템플릿으로 사용되며, 기존 프로젝트에도 표준 정책 파일을 배포하는 기준 저장소 역할을 합니다.
 
@@ -40,6 +40,7 @@
 │       ├── docs-agent.toml
 │       ├── backend-developer.toml
 │       ├── spring-boot-engineer.toml
+│       ├── react-specialist.toml
 │       ├── vue-expert.toml
 │       ├── typescript-pro.toml
 │       ├── javascript-engineer.toml
@@ -69,7 +70,8 @@
 │       └── default.md
 └── scripts
     ├── install-policy.sh
-    └── update-policy.sh
+    ├── update-policy.sh
+    └── update-codex-subagents.sh
 ```
 
 ---
@@ -82,6 +84,7 @@
 bash scripts/install-policy.sh /path/to/target-project
 ```
 
+- 경로를 생략하면 현재 작업 디렉터리를 대상으로 설치합니다.
 - 대상 프로젝트에 정책 파일이 없을 때만 복사합니다.
 - 이미 존재하는 파일은 덮어쓰지 않고 `[SKIP]` 처리합니다.
 - `CHANGELOG.md`는 템플릿 저장소 이력용이므로 대상 프로젝트에 배포하지 않습니다.
@@ -93,6 +96,7 @@ bash scripts/install-policy.sh /path/to/target-project
 bash scripts/update-policy.sh /path/to/target-project
 ```
 
+- 경로를 생략하면 현재 작업 디렉터리를 대상으로 업데이트합니다.
 - 대상 프로젝트의 정책 파일을 최신 기준으로 덮어씁니다.
 - 기존 파일은 대상 프로젝트 내부의 `.policy-backup-YYYYMMDD-HHMMSS/`에 자동 백업합니다.
 - `CHANGELOG.md`는 업데이트 대상에서 제외됩니다.
@@ -106,6 +110,7 @@ bash scripts/update-policy.sh /path/to/target-project --prune-legacy
 
 - `--prune-legacy`는 백업 후 더 이상 사용하지 않는 legacy 정책 경로만 삭제합니다.
 - 일반 프로젝트 파일이나 임의 사용자 파일은 삭제하지 않습니다.
+- `bash scripts/update-policy.sh --prune-legacy`처럼 경로 없이 실행하면 현재 작업 디렉터리에 적용합니다.
 
 ### 3) 적용 후 권장 설정
 
@@ -119,6 +124,19 @@ git config commit.template .gitmessage-ai-assisted.txt
 Codex subagent 실행 정의는 `.codex/agents/*.toml`에 둡니다.
 `.codex/config.toml`은 선택적 프로젝트 메타데이터이며, 정책 강제의 기준은 아닙니다.
 
+외부에서 가져온 role-specific subagent 정의만 갱신해야 할 때는 아래 스크립트를 사용할 수 있습니다.
+
+```bash
+bash scripts/update-codex-subagents.sh /path/to/target-project --dry-run
+```
+
+- 경로를 생략하면 현재 작업 디렉터리의 `.codex/agents/*.toml`을 검사합니다.
+- 대상 프로젝트에 이미 설치된 `.codex/agents/*.toml`만 basename 기준으로 검사합니다.
+- `issue-agent`, `docs-agent`처럼 upstream에 없는 내부 커스텀 agent는 자동으로 건너뜁니다.
+- 실제 갱신 시 기존 파일은 `.policy-backup-YYYYMMDD-HHMMSS/`에 백업합니다.
+- 기본 upstream는 `VoltAgent/awesome-codex-subagents`, 기본 ref는 `main`입니다.
+- 안정적인 운영이 필요하면 `--ref <branch-or-tag>`로 고정된 기준을 사용하는 것을 권장합니다.
+
 ### 4) `v1.1.0`에서 `v1.4.0`으로 마이그레이션
 
 `v1.4.0`은 기존 기본 workflow를 유지하면서 Codex-native subagent 구조를 선택적으로 추가하고, frontend/design agent 확장을 포함한 버전입니다.
@@ -127,6 +145,12 @@ Codex subagent 실행 정의는 `.codex/agents/*.toml`에 둡니다.
 
 ```bash
 bash scripts/update-policy.sh /path/to/target-project
+```
+
+또는 현재 작업 디렉터리에서 바로 실행할 수 있습니다.
+
+```bash
+bash scripts/update-policy.sh
 ```
 
 이 명령은 다음을 수행합니다.
@@ -171,9 +195,12 @@ subagent를 지정하지 않고 일반 프롬프트로 작업하면 기존과 �
 단계별 산출물이 분명한 경우 역할별 agent를 사용합니다.
 
 - 내부 커스텀: `issue-agent`, `docs-agent`
-- 외부 재사용: `backend-developer`, `spring-boot-engineer`, `vue-expert`, `typescript-pro`, `javascript-engineer`, `sql-pro`, `code-reviewer`, `architect-reviewer`, `security-auditor`, `code-mapper`, `system-designer`
+- 외부 재사용: `backend-developer`, `spring-boot-engineer`, `react-specialist`, `vue-expert`, `typescript-pro`, `javascript-engineer`, `sql-pro`, `code-reviewer`, `architect-reviewer`, `security-auditor`, `code-mapper`, `system-designer`
 - 설명 문서는 `docs/agents/*.md`에서 관리합니다.
 - 역할별 agent는 프롬프트에서 이름을 명시적으로 지정해 사용하는 것을 전제로 합니다.
+
+일부 역할별 Codex subagent 정의는 [VoltAgent/awesome-codex-subagents](https://github.com/VoltAgent/awesome-codex-subagents)를 참고해 가져오거나 저장소 정책에 맞게 조정했습니다.
+이 저장소는 외부 저장소에서 런타임에 agent를 설치하지 않고, 필요한 정의를 `.codex/agents/*.toml`에 포함해 배포합니다.
 
 ### Resolution order
 
@@ -241,6 +268,23 @@ Expected outputs:
 - TypeScript type updates
 - Validation notes for the main author
 
+### 2-2) React feature development
+
+React 컴포넌트 동작, 상태 흐름, 렌더링 이슈 수정이 필요할 때 사용합니다.
+
+Prompt example:
+
+```text
+React 목록 화면에서 필터 변경 후 선택 상태가 꼬이는 문제를 고쳐줘.
+react-specialist로 최소 범위 수정하고, 실패 상태와 접근성 영향도 같이 확인해줘.
+```
+
+Expected outputs:
+
+- Minimal React component or hook changes
+- Validation notes for loading, success, and failure states
+- Accessibility or integration risks for the main author
+
 ### 3) Review only
 
 변경사항을 병합 전에 점검할 때 사용합니다.
@@ -279,9 +323,12 @@ Expected outputs:
 
 - `issue-agent`: internal custom agent for repository issue template completion
 - `docs-agent`: internal custom agent for changelog and MR summary drafting
-- `backend-developer`, `spring-boot-engineer`, `vue-expert`, `typescript-pro`, `javascript-engineer`, `sql-pro`: imported or adapted external coding agents
+- `backend-developer`, `spring-boot-engineer`, `react-specialist`, `vue-expert`, `typescript-pro`, `javascript-engineer`, `sql-pro`: imported or adapted external coding agents
 - `code-reviewer`, `architect-reviewer`, `security-auditor`: imported or adapted external review agents
 - `code-mapper`, `system-designer`: imported or adapted analysis and design agents
+
+Reference source for imported/adapted role-specific agents:
+- [VoltAgent/awesome-codex-subagents](https://github.com/VoltAgent/awesome-codex-subagents)
 
 ### Review readiness note
 
