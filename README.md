@@ -63,23 +63,23 @@ Issue, commit, PR/MR 산출물은 아래처럼 관련 skill을 명시해 요청�
 이렇게 하면 템플릿을 무시한 자유 형식 출력을 줄일 수 있습니다.
 
 ```text
-Read skills/write-issue/SKILL.md and draft the GitLab Issue using .gitlab/issue_templates/default.md.
+skills/write-issue/SKILL.md를 읽고 .gitlab/issue_templates/default.md 기준으로 GitLab Issue 초안을 작성해줘.
 ```
 
 ```text
-Read skills/write-commit/SKILL.md and prepare the AI-assisted commit message using .gitmessage-ai-assisted.txt.
+skills/write-commit/SKILL.md를 읽고 .gitmessage-ai-assisted.txt 기준으로 AI-assisted commit message를 작성해줘.
 ```
 
 ```text
-Read skills/write-mr/SKILL.md and draft the GitLab MR using .gitlab/merge_request_templates/default.md.
+skills/write-mr/SKILL.md를 읽고 .gitlab/merge_request_templates/default.md 기준으로 GitLab MR 초안을 작성해줘.
 ```
 
 구현 작업도 필요한 단계만 명시합니다.
 
 ```text
-Read skills/spec/SKILL.md, then define scope, constraints, acceptance criteria, and ambiguities.
-Read skills/build/SKILL.md before implementation.
-Read skills/review/SKILL.md before final review.
+skills/spec/SKILL.md를 읽고 scope, constraints, acceptance criteria, ambiguity를 먼저 정리해줘.
+구현 전 skills/build/SKILL.md를 읽어줘.
+최종 검토 전 skills/review/SKILL.md를 읽어줘.
 ```
 
 ## 배포 파일
