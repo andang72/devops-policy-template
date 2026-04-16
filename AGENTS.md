@@ -14,7 +14,7 @@ Apply repository rules in this order:
 2. `CONTRIBUTING.md`
 3. `SKILL.md`
 4. task-specific `skills/*/SKILL.md` when the matching task is requested
-5. role-specific `.codex/agents/*.toml` when a subagent is explicitly used
+5. core `.codex/agents/*.toml` when a subagent is explicitly used
 6. role-specific `docs/agents/*.md` when a subagent is explicitly used
 7. `.codex/config.toml` as optional metadata only
 
@@ -85,6 +85,18 @@ Use subagents only for bounded work that can be reviewed independently.
 Define ownership before delegation.
 The main author owns final integration and validation.
 Record subagent usage in the Issue or MR when used.
+
+Official core workflow:
+
+- `spec`: use `issue-agent` for issue drafts and acceptance criteria.
+- `build`: use `backend-developer` for bounded implementation.
+- `review`: use `code-reviewer` for defect and policy review.
+- `secure`: use `security-auditor` for sensitive security, auth, permission, token, or data-handling changes.
+- `docs`: use `docs-agent` for changelog, README, policy, and MR summary work.
+
+Archived agents under `.codex/agents/_archive/` are legacy or optional references.
+Do not treat archived agents as active execution choices.
+Do not add a new specialized agent unless repeated project work proves the core set is insufficient.
 
 ## Changelog
 

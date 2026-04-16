@@ -26,7 +26,8 @@ Every changed line must support policy distribution, policy maintenance, or agen
 - Keep AGENTS focused on agent execution rules.
 - Keep `AI_DEVELOPMENT_POLICY.md` focused on enforceable AI-assisted rules.
 - Keep `CONTRIBUTING.md` focused on human Git workflow.
-- Keep `.codex/agents/*.toml` as execution definitions.
+- Keep `.codex/agents/*.toml` as the active core execution definitions.
+- Keep `.codex/agents/_archive/*.toml` as legacy references only.
 - Keep `docs/agents/*.md` as short selection guidance.
 - Keep task-specific details in `skills/*/SKILL.md`.
 
@@ -39,6 +40,17 @@ The user does not need to mention the skill name.
 - Issue draft, update, or creation: `skills/write-issue/SKILL.md`
 - MR draft, update, or creation: `skills/write-mr/SKILL.md`
 - AI-assisted commit preparation: `skills/write-commit/SKILL.md`
+
+## Core Agent Workflow
+
+- `spec`: use `issue-agent`.
+- `build`: use `backend-developer`.
+- `review`: use `code-reviewer`.
+- `secure`: use `security-auditor`.
+- `docs`: use `docs-agent`.
+
+Use archived agents only as references.
+Do not add specialized agents unless the same need appears repeatedly and cannot be handled by the core set.
 
 ## Change Discipline
 

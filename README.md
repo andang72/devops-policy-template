@@ -1,4 +1,4 @@
-[![release](https://img.shields.io/badge/release-v1.5.1-blue.svg)](https://github.com/andang72/devops-policy-template/releases)
+[![release](https://img.shields.io/badge/release-v1.6.0-blue.svg)](https://github.com/andang72/devops-policy-template/releases)
 [![repository](https://img.shields.io/badge/repository-GitHub-black.svg)](https://github.com/andang72/devops-policy-template)
 
 # Enterprise DevOps Policy Template
@@ -32,6 +32,7 @@ POLICY_VERSION.md
 .gitlab/merge_request_templates/default.md
 .codex/config.toml
 .codex/agents/*.toml
+.codex/agents/_archive/*.toml
 docs/agents/*.md
 skills/write-issue/SKILL.md
 skills/write-mr/SKILL.md
@@ -61,7 +62,8 @@ scripts/update-policy.sh
 | `.gitlab/issue_templates/default.md` | 복사해서 바로 쓰는 Issue 양식 |
 | `.gitlab/merge_request_templates/default.md` | 복사해서 바로 쓰는 MR 양식 |
 | `.gitmessage-ai-assisted.txt` | AI-assisted commit 메시지 템플릿 |
-| `.codex/agents/*.toml` | Codex subagent 실행 정의 |
+| `.codex/agents/*.toml` | Active Codex core agent definitions |
+| `.codex/agents/_archive/*.toml` | Archived legacy agent references |
 | `docs/agents/*.md` | agent 선택 기준과 산출물 설명 |
 | `skills/write-issue/SKILL.md` | Issue 작성 상세 규칙 |
 | `skills/write-mr/SKILL.md` | MR 작성 상세 규칙 |
@@ -108,18 +110,26 @@ bash scripts/update-policy.sh /path/to/target-project --prune-legacy
 - 템플릿 저장소 내부에서 실행해 source와 target이 같으면 건너뜁니다.
 - `.gitignore`는 배포하지 않습니다. 대상 프로젝트의 ignore 정책은 별도로 관리합니다.
 
-## Codex Agent 사용 기준
+## Lightweight Codex Workflow
 
-기본 작업은 main agent만 사용합니다.
+This repository uses a small core agent set. It is a policy template, not a general subagent catalog.
 
-- 공통 규칙: `AI_DEVELOPMENT_POLICY.md`, `CONTRIBUTING.md`, `SKILL.md`
-- 선택형 subagent 실행 정의: `.codex/agents/*.toml`
-- subagent 설명 문서: `docs/agents/*.md`
-- 작업별 로컬 규칙 파일: `skills/*/SKILL.md`
-- `.codex/config.toml`은 선택적 메타데이터입니다.
-- Codex 앱 호환성을 위해 `.codex/config.toml`에서 `agents.dir`를 활성화하지 않습니다.
+Active workflow:
 
-Subagent는 파일/모듈/작업 경계가 명확할 때만 사용합니다. 사용한 경우 Issue 또는 MR에 위임 범위와 main author의 통합 후 검증을 기록합니다.
+- `spec`: use `issue-agent`
+- `build`: use `backend-developer`
+- `review`: use `code-reviewer`
+- `secure`: use `security-auditor`
+- `docs`: use `docs-agent`
+
+Core rules:
+
+- Use the main agent for simple work.
+- Use subagents only when the task boundary is clear.
+- Treat `.codex/agents/*.toml` as the active execution model.
+- Treat `.codex/agents/_archive/*.toml` as legacy or optional references.
+- Do not add a specialized agent unless repeated project work proves it is necessary.
+- Keep `.codex/config.toml` as optional metadata. Do not enable `agents.dir`.
 
 `skills/*/SKILL.md`는 저장소 로컬 작업 규칙 파일입니다.
 Codex runtime skill 자동 등록을 의미하지 않습니다.
@@ -152,13 +162,14 @@ GITLAB_PROJECT_ID=
 
 ## Subagent 정의 갱신
 
-외부 upstream에서 가져온 agent 정의만 갱신해야 할 때 사용합니다.
+외부 upstream에서 가져온 active core agent 정의만 갱신해야 할 때 사용합니다.
 
 ```bash
 bash scripts/update-codex-subagents.sh /path/to/target-project --dry-run
 ```
 
-- 대상 프로젝트에 이미 설치된 `.codex/agents/*.toml`만 basename 기준으로 검사합니다.
+- 대상 프로젝트에 이미 설치된 top-level `.codex/agents/*.toml`만 basename 기준으로 검사합니다.
+- `.codex/agents/_archive/*.toml`은 검사하지 않습니다.
 - upstream에 없는 내부 agent는 건너뜁니다.
 - 실제 갱신 시 기존 파일은 `.policy-backup-YYYYMMDD-HHMMSS/`에 백업합니다.
 - 안정적인 운영이 필요하면 `--ref <branch-or-tag>`를 지정합니다.
@@ -194,7 +205,7 @@ bash scripts/update-codex-subagents.sh /path/to/target-project --dry-run
 작업 방식:
 - 먼저 영향 파일, 호출 흐름, 데이터 흐름을 짧게 확인해줘.
 - 작업 전 Issue 초안을 `skills/write-issue/SKILL.md` 기준으로 작성해줘.
-- backend/frontend/type/test처럼 독립 검토 가능한 범위가 있으면 필요한 경우에만 적절한 subagent를 사용해줘.
+- spec/build/review/secure/docs처럼 독립 검토 가능한 범위가 있으면 필요한 경우에만 core subagent를 사용해줘.
 - subagent를 사용하면 위임 범위와 main author 검증 항목을 기록해줘.
 - Issue/MR/commit 본문은 한국어로 작성해줘.
 - 명령어, 경로, 코드 식별자, 로그, API 이름은 원문을 유지해줘.

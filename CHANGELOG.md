@@ -3,6 +3,11 @@
 ## 2026-04-16
 
 ### 변경됨
+- Simplify active Codex agents to the core `spec/build/review/secure/docs` workflow
+- Archive overlapping specialized agents under `.codex/agents/_archive/`
+- Update install/update scripts to distribute archived agents as references and remove legacy active specialized agents from targets
+- Clarify that archived agents are not active execution choices
+- Bump policy version to `v1.6.0`
 - Reflect base project `v1.5.1` policy structure in this GitHub downstream repository
 - Add task-specific `skills/write-issue`, `skills/write-mr`, and `skills/write-commit` rule files
 - Simplify Issue, MR, and AI-assisted commit templates for copy-ready use
