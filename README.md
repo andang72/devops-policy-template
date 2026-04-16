@@ -102,44 +102,52 @@ skills/spec/SKILL.md를 읽고 scope, constraints, acceptance criteria, ambiguit
 ## 배포 파일
 
 ```text
-POLICY_VERSION.md
-AGENTS.md
-AI_DEVELOPMENT_POLICY.md
-CONTRIBUTING.md
-SKILL.md
-.codex/config.toml
-.codex/agents/issue-agent.toml
-.codex/agents/docs-agent.toml
-.codex/agents/backend-developer.toml
-.codex/agents/code-reviewer.toml
-.codex/agents/security-auditor.toml
-.codex/agents/_archive/architect-reviewer.toml
-.codex/agents/_archive/code-mapper.toml
-.codex/agents/_archive/javascript-engineer.toml
-.codex/agents/_archive/react-specialist.toml
-.codex/agents/_archive/spring-boot-engineer.toml
-.codex/agents/_archive/sql-pro.toml
-.codex/agents/_archive/system-designer.toml
-.codex/agents/_archive/typescript-pro.toml
-.codex/agents/_archive/vue-expert.toml
-skills/write-issue/SKILL.md
-skills/write-mr/SKILL.md
-skills/write-commit/SKILL.md
-skills/spec/SKILL.md
-skills/build/SKILL.md
-skills/review/SKILL.md
-.gitmessage-ai-assisted.txt
-.gitlab/issue_templates/default.md
-.gitlab/merge_request_templates/default.md
-docs/agents/issue-agent.md
-docs/agents/docs-agent.md
-docs/agents/coding-agents.md
-docs/agents/review-agents.md
-docs/agents/frontend-agents.md
-docs/agents/design-agents.md
-.vscode/java.code-snippets
-docs/dev/vscode-snippets-guide.md
-scripts/update-codex-subagents.sh
+.
+├── POLICY_VERSION.md
+├── AGENTS.md
+├── AI_DEVELOPMENT_POLICY.md
+├── CONTRIBUTING.md
+├── SKILL.md
+├── .gitmessage-ai-assisted.txt
+├── .codex
+│   ├── config.toml
+│   └── agents
+│       ├── issue-agent.toml
+│       ├── docs-agent.toml
+│       ├── backend-developer.toml
+│       ├── code-reviewer.toml
+│       ├── security-auditor.toml
+│       └── _archive
+│           ├── architect-reviewer.toml
+│           ├── code-mapper.toml
+│           ├── javascript-engineer.toml
+│           ├── react-specialist.toml
+│           ├── spring-boot-engineer.toml
+│           ├── sql-pro.toml
+│           ├── system-designer.toml
+│           ├── typescript-pro.toml
+│           └── vue-expert.toml
+├── skills
+│   ├── write-issue/SKILL.md
+│   ├── write-mr/SKILL.md
+│   ├── write-commit/SKILL.md
+│   ├── spec/SKILL.md
+│   ├── build/SKILL.md
+│   └── review/SKILL.md
+├── .gitlab
+│   ├── issue_templates/default.md
+│   └── merge_request_templates/default.md
+├── docs
+│   ├── agents
+│   │   ├── issue-agent.md
+│   │   ├── docs-agent.md
+│   │   ├── coding-agents.md
+│   │   ├── review-agents.md
+│   │   ├── frontend-agents.md
+│   │   └── design-agents.md
+│   └── dev/vscode-snippets-guide.md
+├── .vscode/java.code-snippets
+└── scripts/update-codex-subagents.sh
 ```
 
 템플릿 저장소 전용: `README.md`, `CHANGELOG.md`, `scripts/install-policy.sh`, `scripts/update-policy.sh`.
