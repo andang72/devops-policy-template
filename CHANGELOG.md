@@ -8,6 +8,7 @@
 - Update install/update scripts to distribute archived agents as references and remove legacy active specialized agents from targets
 - Clarify that archived agents are not active execution choices
 - Clarify that `addyosmani/agent-skills` is a reference source only, not a framework to copy
+- Add minimal `skills/spec`, `skills/build`, and `skills/review` workflow aids using the existing `SKILL.md` structure
 - Bump policy version to `v1.6.0`
 - Reflect base project `v1.5.1` policy structure in this GitHub downstream repository
 - Add task-specific `skills/write-issue`, `skills/write-mr`, and `skills/write-commit` rule files

@@ -40,17 +40,19 @@ The user does not need to mention the skill name.
 - Issue draft, update, or creation: `skills/write-issue/SKILL.md`
 - MR draft, update, or creation: `skills/write-mr/SKILL.md`
 - AI-assisted commit preparation: `skills/write-commit/SKILL.md`
+- Spec clarification: `skills/spec/SKILL.md`
+- Incremental build: `skills/build/SKILL.md`
+- Review preparation: `skills/review/SKILL.md`
 
 ## Core Agent Workflow
 
-- `spec`: use `issue-agent`.
-- `build`: use `backend-developer`.
-- `review`: use `code-reviewer`.
+- `spec`: `skills/spec/SKILL.md` + `issue-agent`.
+- `build`: `skills/build/SKILL.md` + `backend-developer`.
+- `review`: `skills/review/SKILL.md` + `code-reviewer`.
 - `secure`: use `security-auditor`.
 - `docs`: use `docs-agent`.
 
-Use `addyosmani/agent-skills` only as a reference for the minimal `spec/build/review` workflow.
-Do not import its `agents/`, `hooks/`, command model, or directory structure.
+Keep `skills/spec/SKILL.md`, `skills/build/SKILL.md`, and `skills/review/SKILL.md` short AI execution aids.
 Use archived agents only as references.
 Do not add specialized agents unless the same need appears repeatedly and cannot be handled by the core set.
 

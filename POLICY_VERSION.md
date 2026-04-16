@@ -23,6 +23,9 @@
   - active `.codex/agents/*.toml`
   - archived `.codex/agents/_archive/*.toml`
   - `skills/*/SKILL.md`
+  - `skills/spec/SKILL.md`
+  - `skills/build/SKILL.md`
+  - `skills/review/SKILL.md`
   - `.gitlab/issue_templates/default.md`
   - `.gitlab/merge_request_templates/default.md`
   - `docs/agents/*.md`

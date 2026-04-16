@@ -76,8 +76,19 @@ The user does not need to mention the skill name.
 - Issue draft, update, or creation: `skills/write-issue/SKILL.md`
 - MR draft, update, or creation: `skills/write-mr/SKILL.md`
 - AI-assisted commit preparation: `skills/write-commit/SKILL.md`
+- Spec clarification: `skills/spec/SKILL.md`
+- Incremental build: `skills/build/SKILL.md`
+- Review preparation: `skills/review/SKILL.md`
 
 If the matching file is missing, stop and report the missing policy file.
+
+## Workflow Aids
+
+Use these short AI execution aids without treating them as a new framework:
+
+- `spec`: `skills/spec/SKILL.md`
+- `build`: `skills/build/SKILL.md`
+- `review`: `skills/review/SKILL.md`
 
 ## Subagents
 
@@ -88,11 +99,11 @@ Record subagent usage in the Issue or MR when used.
 
 Official core workflow:
 
-- `spec`: use `issue-agent` for issue drafts and acceptance criteria.
-- `build`: use `backend-developer` for bounded implementation.
-- `review`: use `code-reviewer` for defect and policy review.
-- `secure`: use `security-auditor` for sensitive security, auth, permission, token, or data-handling changes.
-- `docs`: use `docs-agent` for changelog, README, policy, and MR summary work.
+- `spec`: `skills/spec/SKILL.md` + `issue-agent`
+- `build`: `skills/build/SKILL.md` + `backend-developer`
+- `review`: `skills/review/SKILL.md` + `code-reviewer`
+- `secure`: `security-auditor`
+- `docs`: `docs-agent`
 
 `addyosmani/agent-skills` is a reference source only for the minimal `spec/build/review` workflow idea.
 Do not copy its `agents/`, `hooks/`, command model, or full directory structure.

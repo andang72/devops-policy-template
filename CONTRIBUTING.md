@@ -16,9 +16,6 @@ Issue 생성이 어려운 경우 commit body 또는 MR body에 사유를 기록�
 
 ## AI Workflow
 
-This repository adapts only the minimal `spec/build/review` workflow idea from `addyosmani/agent-skills`.
-Do not import that repository's agent, hook, command, or directory model.
-
 - Start with a spec or issue draft before implementation.
 - Build in small increments and keep changes scoped.
 - Review before merge using `code-reviewer` or equivalent human review.
