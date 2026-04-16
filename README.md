@@ -3,7 +3,7 @@
 
 # Enterprise DevOps Policy Template
 
-AI-assisted 개발 규칙, GitLab Issue/MR 템플릿, commit 형식, 최소 Codex workflow를 배포하는 정책 저장소입니다.
+AI-assisted 개발 규칙, GitLab Issue/MR 템플릿, commit 형식, 최소 AI workflow를 배포하는 정책 저장소입니다.
 
 - 버전: [POLICY_VERSION.md](./POLICY_VERSION.md)
 - AI 규칙: [AI_DEVELOPMENT_POLICY.md](./AI_DEVELOPMENT_POLICY.md)
@@ -13,10 +13,10 @@ AI-assisted 개발 규칙, GitLab Issue/MR 템플릿, commit 형식, 최소 Code
 ## 제공 내용
 
 - 대상 프로젝트에 복사 가능한 정책 파일 세트.
-- 작은 Codex workflow: `spec -> build -> review`.
+- 작은 AI workflow: `spec -> build -> review`.
 - Issue, MR, commit, validation, AI usage 기록 기준.
-- Active agent 5개만 유지: `issue-agent`, `backend-developer`, `code-reviewer`, `security-auditor`, `docs-agent`.
-- `.codex/agents/_archive/`의 specialist agent는 참고용으로만 유지.
+- 일반 skill: `spec`, `build`, `review`, `write-issue`, `write-mr`, `write-commit`.
+- Codex subagent: active 5개만 유지하고 specialist agent는 archive에 보관.
 
 ## 설치 / 업데이트
 
@@ -38,7 +38,7 @@ git config commit.template .gitmessage-ai-assisted.txt
 대상 경로를 생략하면 현재 작업 디렉터리를 사용합니다.
 `CHANGELOG.md`는 템플릿 저장소 전용이며 대상 프로젝트에 배포하지 않습니다.
 
-## 최소 Codex Workflow
+## 최소 AI Workflow
 
 이 저장소는 `addyosmani/agent-skills`에서 최소 `spec/build/review` lifecycle 아이디어만 참고합니다.
 해당 저장소의 `agents/`, `hooks/`, command model, directory structure는 복사하지 않습니다.
@@ -53,7 +53,24 @@ git config commit.template .gitmessage-ai-assisted.txt
 
 규칙:
 
-- Active agent는 `issue-agent`, `backend-developer`, `code-reviewer`, `security-auditor`, `docs-agent`입니다.
+- `skills/*/SKILL.md`는 AI 실행 보조 규칙입니다.
+- 특정 도구 전용 구조를 새로 만들지 않습니다.
+- Issue, commit, MR은 관련 `write-*` skill과 템플릿을 함께 사용합니다.
+
+## Codex Subagent
+
+Codex subagent는 선택 기능입니다.
+정책 자체와 `skills/*/SKILL.md`는 Codex 전용이 아닙니다.
+
+| 단계 | Active subagent |
+| --- | --- |
+| `spec` | `issue-agent` |
+| `build` | `backend-developer` |
+| `review` | `code-reviewer` |
+| `secure` | `security-auditor` |
+| `docs` | `docs-agent` |
+
+- Top-level `.codex/agents/*.toml`만 active set입니다.
 - `.codex/agents/_archive/*.toml`은 legacy reference입니다.
 - `.codex/config.toml`에서 `agents.dir`를 활성화하지 않습니다.
 
@@ -134,7 +151,10 @@ scripts/update-codex-subagents.sh
 토큰은 prompt, log, commit, MR body에 출력하지 않습니다.
 결과는 `iid`, `web_url`, `state`처럼 필요한 필드만 남깁니다.
 
-## Upstream Subagent 업데이트
+## Codex Subagent 업데이트
+
+외부 upstream에서 가져온 active Codex subagent 정의만 갱신할 때 사용합니다.
+일반 skill이나 정책 파일은 이 스크립트의 대상이 아닙니다.
 
 ```bash
 bash scripts/update-codex-subagents.sh /path/to/target-project --dry-run
