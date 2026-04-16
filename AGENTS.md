@@ -14,7 +14,7 @@ Apply repository rules in this order:
 2. `CONTRIBUTING.md`
 3. `SKILL.md`
 4. task-specific `skills/*/SKILL.md` when the matching task is requested
-5. role-specific `.codex/agents/*.toml` when a subagent is explicitly used
+5. core `.codex/agents/*.toml` when a subagent is explicitly used
 6. role-specific `docs/agents/*.md` when a subagent is explicitly used
 7. `.codex/config.toml` as optional metadata only
 
@@ -76,8 +76,19 @@ The user does not need to mention the skill name.
 - Issue draft, update, or creation: `skills/write-issue/SKILL.md`
 - MR draft, update, or creation: `skills/write-mr/SKILL.md`
 - AI-assisted commit preparation: `skills/write-commit/SKILL.md`
+- Spec clarification: `skills/spec/SKILL.md`
+- Incremental build: `skills/build/SKILL.md`
+- Review preparation: `skills/review/SKILL.md`
 
 If the matching file is missing, stop and report the missing policy file.
+
+## Workflow Aids
+
+Use these short AI execution aids without treating them as a new framework:
+
+- `spec`: `skills/spec/SKILL.md`
+- `build`: `skills/build/SKILL.md`
+- `review`: `skills/review/SKILL.md`
 
 ## Subagents
 
@@ -85,6 +96,20 @@ Use subagents only for bounded work that can be reviewed independently.
 Define ownership before delegation.
 The main author owns final integration and validation.
 Record subagent usage in the Issue or MR when used.
+
+Official core workflow:
+
+- `spec`: `skills/spec/SKILL.md` + `issue-agent`
+- `build`: `skills/build/SKILL.md` + `backend-developer`
+- `review`: `skills/review/SKILL.md` + `code-reviewer`
+- `secure`: `security-auditor`
+- `docs`: `docs-agent`
+
+`addyosmani/agent-skills` is a reference source only for the minimal `spec/build/review` workflow idea.
+Do not copy its `agents/`, `hooks/`, command model, or full directory structure.
+Archived agents under `.codex/agents/_archive/` are legacy or optional references.
+Do not treat archived agents as active execution choices.
+Do not add a new specialized agent unless repeated project work proves the core set is insufficient.
 
 ## Changelog
 
