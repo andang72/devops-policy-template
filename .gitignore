@@ -1,2 +1,4 @@
+.env.local
 .policy-backup-*/
 .DS_Store
+.omx/

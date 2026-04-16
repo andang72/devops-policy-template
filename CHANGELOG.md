@@ -1,5 +1,26 @@
 # Changelog
 
+## 2026-04-16
+
+### 변경됨
+- Reflect base project `v1.5.1` policy structure in this GitHub downstream repository
+- Add task-specific `skills/write-issue`, `skills/write-mr`, and `skills/write-commit` rule files
+- Simplify Issue, MR, and AI-assisted commit templates for copy-ready use
+- Update `.codex/config.toml` to keep `agents.dir` disabled for Codex desktop app compatibility
+- Align Codex agent definitions and subagent updater script with the base project while preserving GitHub repository identity
+- Add `.env.local` and `.omx/` to ignored local-only paths
+
+### 검증
+- Planned merge strategy against `/Users/donghyuck.son/git/devopts/devops-policy-template`
+- Preserved this repository's GitHub-facing README identity instead of copying GitLab badges
+- Ran `git diff --check`
+- Ran `bash -n scripts/install-policy.sh`
+- Ran `bash -n scripts/update-policy.sh`
+- Ran `bash -n scripts/update-codex-subagents.sh`
+- Ran `bash scripts/install-policy.sh`
+- Ran `bash scripts/update-policy.sh --prune-legacy`
+- Ran `bash scripts/update-codex-subagents.sh --dry-run`
+
 ## 2026-04-01
 
 ### 변경됨
