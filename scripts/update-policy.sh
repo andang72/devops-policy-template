@@ -42,17 +42,17 @@ FILES=(
   ".codex/agents/issue-agent.toml"
   ".codex/agents/docs-agent.toml"
   ".codex/agents/backend-developer.toml"
-  ".codex/agents/spring-boot-engineer.toml"
-  ".codex/agents/react-specialist.toml"
-  ".codex/agents/vue-expert.toml"
-  ".codex/agents/typescript-pro.toml"
-  ".codex/agents/javascript-engineer.toml"
-  ".codex/agents/sql-pro.toml"
   ".codex/agents/code-reviewer.toml"
-  ".codex/agents/architect-reviewer.toml"
   ".codex/agents/security-auditor.toml"
-  ".codex/agents/code-mapper.toml"
-  ".codex/agents/system-designer.toml"
+  ".codex/agents/_archive/architect-reviewer.toml"
+  ".codex/agents/_archive/code-mapper.toml"
+  ".codex/agents/_archive/javascript-engineer.toml"
+  ".codex/agents/_archive/react-specialist.toml"
+  ".codex/agents/_archive/spring-boot-engineer.toml"
+  ".codex/agents/_archive/sql-pro.toml"
+  ".codex/agents/_archive/system-designer.toml"
+  ".codex/agents/_archive/typescript-pro.toml"
+  ".codex/agents/_archive/vue-expert.toml"
   "skills/write-issue/SKILL.md"
   "skills/write-mr/SKILL.md"
   "skills/write-commit/SKILL.md"
@@ -75,6 +75,18 @@ LEGACY_FILES=(
   "agents/coding-agent/SKILL.md"
   "agents/review-agent/SKILL.md"
   "agents/docs-agent/SKILL.md"
+)
+
+ARCHIVED_ACTIVE_AGENT_FILES=(
+  ".codex/agents/architect-reviewer.toml"
+  ".codex/agents/code-mapper.toml"
+  ".codex/agents/javascript-engineer.toml"
+  ".codex/agents/react-specialist.toml"
+  ".codex/agents/spring-boot-engineer.toml"
+  ".codex/agents/sql-pro.toml"
+  ".codex/agents/system-designer.toml"
+  ".codex/agents/typescript-pro.toml"
+  ".codex/agents/vue-expert.toml"
 )
 
 mkdir -p "${BACKUP_DIR}"
@@ -122,6 +134,10 @@ prune_legacy_file() {
 
 for rel in "${FILES[@]}"; do
   backup_and_copy "${rel}"
+done
+
+for rel in "${ARCHIVED_ACTIVE_AGENT_FILES[@]}"; do
+  prune_legacy_file "${rel}"
 done
 
 if [[ "${PRUNE_LEGACY}" == "true" ]]; then
