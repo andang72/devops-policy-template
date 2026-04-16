@@ -35,6 +35,9 @@ Codex 앱 호환성을 위해 `.codex/config.toml`의 `agents.dir`는 활성화�
 
 ## AI Workflow
 
+This workflow adapts only the minimal `spec/build/review` lifecycle idea from `addyosmani/agent-skills`.
+It does not adopt that repository's agent, hook, command, or directory model.
+
 - Write or update the spec before implementation.
 - Build incrementally and keep changes traceable to the spec.
 - Run `code-reviewer` or equivalent review before merge.

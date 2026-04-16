@@ -49,6 +49,8 @@ The user does not need to mention the skill name.
 - `secure`: use `security-auditor`.
 - `docs`: use `docs-agent`.
 
+Use `addyosmani/agent-skills` only as a reference for the minimal `spec/build/review` workflow.
+Do not import its `agents/`, `hooks/`, command model, or directory structure.
 Use archived agents only as references.
 Do not add specialized agents unless the same need appears repeatedly and cannot be handled by the core set.
 

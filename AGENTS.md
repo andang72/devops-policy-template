@@ -94,6 +94,8 @@ Official core workflow:
 - `secure`: use `security-auditor` for sensitive security, auth, permission, token, or data-handling changes.
 - `docs`: use `docs-agent` for changelog, README, policy, and MR summary work.
 
+`addyosmani/agent-skills` is a reference source only for the minimal `spec/build/review` workflow idea.
+Do not copy its `agents/`, `hooks/`, command model, or full directory structure.
 Archived agents under `.codex/agents/_archive/` are legacy or optional references.
 Do not treat archived agents as active execution choices.
 Do not add a new specialized agent unless repeated project work proves the core set is insufficient.

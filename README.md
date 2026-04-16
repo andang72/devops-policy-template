@@ -113,6 +113,8 @@ bash scripts/update-policy.sh /path/to/target-project --prune-legacy
 ## Lightweight Codex Workflow
 
 This repository uses a small core agent set. It is a policy template, not a general subagent catalog.
+It references `addyosmani/agent-skills` only for minimal lifecycle ideas: `spec`, `build`, and `review`.
+Do not import that repository's `agents/`, `hooks/`, command model, or directory structure.
 
 Active workflow:
 
