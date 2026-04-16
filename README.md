@@ -3,7 +3,7 @@
 
 # Enterprise DevOps Policy Template
 
-AI-assisted 개발 규칙, GitLab Issue/MR 템플릿, commit 형식, 최소 Codex workflow를 배포하는 정책 저장소입니다.
+AI-assisted 개발 규칙, GitLab Issue/MR 템플릿, commit 형식, 최소 AI workflow를 배포하는 정책 저장소입니다.
 
 - 버전: [POLICY_VERSION.md](./POLICY_VERSION.md)
 - AI 규칙: [AI_DEVELOPMENT_POLICY.md](./AI_DEVELOPMENT_POLICY.md)
@@ -13,10 +13,10 @@ AI-assisted 개발 규칙, GitLab Issue/MR 템플릿, commit 형식, 최소 Code
 ## 제공 내용
 
 - 대상 프로젝트에 복사 가능한 정책 파일 세트.
-- 작은 Codex workflow: `spec -> build -> review`.
+- 작은 AI workflow: `spec -> build -> review`.
 - Issue, MR, commit, validation, AI usage 기록 기준.
-- Active agent 5개만 유지: `issue-agent`, `backend-developer`, `code-reviewer`, `security-auditor`, `docs-agent`.
-- `.codex/agents/_archive/`의 specialist agent는 참고용으로만 유지.
+- 일반 skill: `spec`, `build`, `review`, `write-issue`, `write-mr`, `write-commit`.
+- Codex subagent: active 5개만 유지하고 specialist agent는 archive에 보관.
 
 ## 설치 / 업데이트
 
@@ -38,7 +38,7 @@ git config commit.template .gitmessage-ai-assisted.txt
 대상 경로를 생략하면 현재 작업 디렉터리를 사용합니다.
 `CHANGELOG.md`는 템플릿 저장소 전용이며 대상 프로젝트에 배포하지 않습니다.
 
-## 최소 Codex Workflow
+## 최소 AI Workflow
 
 이 저장소는 `addyosmani/agent-skills`에서 최소 `spec/build/review` lifecycle 아이디어만 참고합니다.
 해당 저장소의 `agents/`, `hooks/`, command model, directory structure는 복사하지 않습니다.
@@ -53,7 +53,24 @@ git config commit.template .gitmessage-ai-assisted.txt
 
 규칙:
 
-- Active agent는 `issue-agent`, `backend-developer`, `code-reviewer`, `security-auditor`, `docs-agent`입니다.
+- `skills/*/SKILL.md`는 AI 실행 보조 규칙입니다.
+- 특정 도구 전용 구조를 새로 만들지 않습니다.
+- Issue, commit, MR은 관련 `write-*` skill과 템플릿을 함께 사용합니다.
+
+## Codex Subagent
+
+Codex subagent는 선택 기능입니다.
+정책 자체와 `skills/*/SKILL.md`는 Codex 전용이 아닙니다.
+
+| 단계 | Active subagent |
+| --- | --- |
+| `spec` | `issue-agent` |
+| `build` | `backend-developer` |
+| `review` | `code-reviewer` |
+| `secure` | `security-auditor` |
+| `docs` | `docs-agent` |
+
+- Top-level `.codex/agents/*.toml`만 active set입니다.
 - `.codex/agents/_archive/*.toml`은 legacy reference입니다.
 - `.codex/config.toml`에서 `agents.dir`를 활성화하지 않습니다.
 
@@ -63,66 +80,74 @@ Issue, commit, PR/MR 산출물은 아래처럼 관련 skill을 명시해 요청�
 이렇게 하면 템플릿을 무시한 자유 형식 출력을 줄일 수 있습니다.
 
 ```text
-Read skills/write-issue/SKILL.md and draft the GitLab Issue using .gitlab/issue_templates/default.md.
+skills/write-issue/SKILL.md를 읽고 .gitlab/issue_templates/default.md 기준으로 GitLab Issue 초안을 작성해줘.
 ```
 
 ```text
-Read skills/write-commit/SKILL.md and prepare the AI-assisted commit message using .gitmessage-ai-assisted.txt.
+skills/write-commit/SKILL.md를 읽고 .gitmessage-ai-assisted.txt 기준으로 AI-assisted commit message를 작성해줘.
 ```
 
 ```text
-Read skills/write-mr/SKILL.md and draft the GitLab MR using .gitlab/merge_request_templates/default.md.
+skills/write-mr/SKILL.md를 읽고 .gitlab/merge_request_templates/default.md 기준으로 GitLab MR 초안을 작성해줘.
 ```
 
 구현 작업도 필요한 단계만 명시합니다.
 
 ```text
-Read skills/spec/SKILL.md, then define scope, constraints, acceptance criteria, and ambiguities.
-Read skills/build/SKILL.md before implementation.
-Read skills/review/SKILL.md before final review.
+skills/spec/SKILL.md를 읽고 scope, constraints, acceptance criteria, ambiguity를 먼저 정리해줘.
+구현 전 skills/build/SKILL.md를 읽어줘.
+최종 검토 전 skills/review/SKILL.md를 읽어줘.
 ```
 
 ## 배포 파일
 
 ```text
-POLICY_VERSION.md
-AGENTS.md
-AI_DEVELOPMENT_POLICY.md
-CONTRIBUTING.md
-SKILL.md
-.codex/config.toml
-.codex/agents/issue-agent.toml
-.codex/agents/docs-agent.toml
-.codex/agents/backend-developer.toml
-.codex/agents/code-reviewer.toml
-.codex/agents/security-auditor.toml
-.codex/agents/_archive/architect-reviewer.toml
-.codex/agents/_archive/code-mapper.toml
-.codex/agents/_archive/javascript-engineer.toml
-.codex/agents/_archive/react-specialist.toml
-.codex/agents/_archive/spring-boot-engineer.toml
-.codex/agents/_archive/sql-pro.toml
-.codex/agents/_archive/system-designer.toml
-.codex/agents/_archive/typescript-pro.toml
-.codex/agents/_archive/vue-expert.toml
-skills/write-issue/SKILL.md
-skills/write-mr/SKILL.md
-skills/write-commit/SKILL.md
-skills/spec/SKILL.md
-skills/build/SKILL.md
-skills/review/SKILL.md
-.gitmessage-ai-assisted.txt
-.gitlab/issue_templates/default.md
-.gitlab/merge_request_templates/default.md
-docs/agents/issue-agent.md
-docs/agents/docs-agent.md
-docs/agents/coding-agents.md
-docs/agents/review-agents.md
-docs/agents/frontend-agents.md
-docs/agents/design-agents.md
-.vscode/java.code-snippets
-docs/dev/vscode-snippets-guide.md
-scripts/update-codex-subagents.sh
+.
+├── POLICY_VERSION.md
+├── AGENTS.md
+├── AI_DEVELOPMENT_POLICY.md
+├── CONTRIBUTING.md
+├── SKILL.md
+├── .gitmessage-ai-assisted.txt
+├── .codex
+│   ├── config.toml
+│   └── agents
+│       ├── issue-agent.toml
+│       ├── docs-agent.toml
+│       ├── backend-developer.toml
+│       ├── code-reviewer.toml
+│       ├── security-auditor.toml
+│       └── _archive
+│           ├── architect-reviewer.toml
+│           ├── code-mapper.toml
+│           ├── javascript-engineer.toml
+│           ├── react-specialist.toml
+│           ├── spring-boot-engineer.toml
+│           ├── sql-pro.toml
+│           ├── system-designer.toml
+│           ├── typescript-pro.toml
+│           └── vue-expert.toml
+├── skills
+│   ├── write-issue/SKILL.md
+│   ├── write-mr/SKILL.md
+│   ├── write-commit/SKILL.md
+│   ├── spec/SKILL.md
+│   ├── build/SKILL.md
+│   └── review/SKILL.md
+├── .gitlab
+│   ├── issue_templates/default.md
+│   └── merge_request_templates/default.md
+├── docs
+│   ├── agents
+│   │   ├── issue-agent.md
+│   │   ├── docs-agent.md
+│   │   ├── coding-agents.md
+│   │   ├── review-agents.md
+│   │   ├── frontend-agents.md
+│   │   └── design-agents.md
+│   └── dev/vscode-snippets-guide.md
+├── .vscode/java.code-snippets
+└── scripts/update-codex-subagents.sh
 ```
 
 템플릿 저장소 전용: `README.md`, `CHANGELOG.md`, `scripts/install-policy.sh`, `scripts/update-policy.sh`.
@@ -134,7 +159,10 @@ scripts/update-codex-subagents.sh
 토큰은 prompt, log, commit, MR body에 출력하지 않습니다.
 결과는 `iid`, `web_url`, `state`처럼 필요한 필드만 남깁니다.
 
-## Upstream Subagent 업데이트
+## Codex Subagent 업데이트
+
+외부 upstream에서 가져온 active Codex subagent 정의만 갱신할 때 사용합니다.
+일반 skill이나 정책 파일은 이 스크립트의 대상이 아닙니다.
 
 ```bash
 bash scripts/update-codex-subagents.sh /path/to/target-project --dry-run
